@@ -1,58 +1,59 @@
-# 这一部分一飞说还有工作需要更新。因此不进行调用，仅预留位置
 import RPi.GPIO as GPIO
 import time
 
-out1 = 11
-out2 = 13
-ENA = 3
-ENB = 5
+out1 = 32
+out2 = 37
+out3 = 36
+out4 = 38
 
-i = 0
-y = 0
+ENA=22
+ENB=40
+
+inpin1 = 18
+
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(out1, GPIO.OUT)
 GPIO.setup(out2, GPIO.OUT)
-GPIO.setup(ENA, GPIO.OUT)
-GPIO.setup(ENB, GPIO.OUT)
+GPIO.setup(out3, GPIO.OUT)
+GPIO.setup(out4, GPIO.OUT)
+GPIO.setup(ENA,GPIO.OUT)
+GPIO.setup(ENB,GPIO.OUT)
+GPIO.setup(inpin1, GPIO.IN)
+GPIO.setup(inpin1, GPIO.LOW)
 
-try:
-    while (1):
+ENApwm=GPIO.PWM(ENA,200)
+ENApwm.start(50)
+ENBpwm=GPIO.PWM(ENB,200)
+ENBpwm.start(50)
+
+
+GPIO.output(out1, GPIO.HIGH)
+GPIO.output(out2, GPIO.LOW)
+GPIO.output(out3, GPIO.HIGH)
+GPIO.output(out4, GPIO.LOW)
+
+while (1):
+    if GPIO.input(inpin1) == GPIO.HIGH:
+        print("Yes")
         GPIO.output(out1, GPIO.LOW)
         GPIO.output(out2, GPIO.LOW)
-        GPIO.output(ENA, 255)
-        GPIO.output(ENB, 255)
-        x = int(input())
-        if x > 0 and x <= 400:
-            for y in range(x, 0, -1):
-                if i == 0:
-                    GPIO.output(out1, GPIO.HIGH)
-                    GPIO.output(out2, GPIO.LOW)
-                    time.sleep(0.03)
-                    # time.sleep(1)
-                elif i == 1:
-                    GPIO.output(out1, GPIO.HIGH)
-                    GPIO.output(out2, GPIO.HIGH)
-                    time.sleep(0.03)
-                    # time.sleep(1)
-                elif i == 2:
-                    GPIO.output(out1, GPIO.LOW)
-                    GPIO.output(out2, GPIO.HIGH)
-                    time.sleep(0.03)
-                    # time.sleep(1)
-                elif i == 3:
-                    GPIO.output(out1, GPIO.LOW)
-                    GPIO.output(out2, GPIO.LOW)
-                    time.sleep(0.03)
-                    # time.sleep(1)
-                if i == 4:
-                    i = 0
-                    continue
-                i = i + 1
+        GPIO.output(out3, GPIO.LOW)
+        GPIO.output(out4, GPIO.LOW)
+        break
+time.sleep(5)
 
+GPIO.output(out1, GPIO.LOW)
+GPIO.output(out2, GPIO.HIGH)
+GPIO.output(out3, GPIO.LOW)
+GPIO.output(out4, GPIO.HIGH)
 
-except KeyboardInterrupt:
-    GPIO.output(ENA, False)
-    GPIO.output(ENB, False)
-    GPIO.cleanup()
+while (1):
+    if GPIO.input(inpin1) == GPIO.HIGH:
+        print("Yes")
+        GPIO.output(out1, GPIO.LOW)
+        GPIO.output(out2, GPIO.LOW)
+        GPIO.output(out3, GPIO.LOW)
+        GPIO.output(out4, GPIO.LOW)
+        break
