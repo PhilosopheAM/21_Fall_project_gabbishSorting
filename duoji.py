@@ -1,26 +1,23 @@
-# 这一部分一飞说还有工作需要更新。因此不进行调用，仅预留位置
 import RPi.GPIO as GPIO
 import time
 
-GPIO.setmode(GPIO.BOARD)
-pin = 8
+pin = 3
 
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(pin, GPIO.OUT)
 
 pwm_motor = GPIO.PWM(pin, 50)
 pwm_motor.start(12.5)
 GPIO.output(pin, GPIO.HIGH)
 
-# In steering engine, pwm controls the angles rather than rotating speed
-
-for i in range(25, 76, 1):
+for i in range(125, 74, -1):
     m = float(i / 10)
     pwm_motor.ChangeDutyCycle(m)
     time.sleep(0.02)
 
-time.sleep(2)
+time.sleep(5)
 
-for i in range(75, 24, -1):
+for i in range(75, 125, 1):
     m = float(i / 10)
     pwm_motor.ChangeDutyCycle(m)
     time.sleep(0.02)
