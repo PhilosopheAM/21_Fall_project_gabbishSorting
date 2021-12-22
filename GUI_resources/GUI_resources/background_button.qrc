@@ -1,0 +1,10 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource prefix="/">
+    <file>新背景图片.png</file>
+    <file>新可回收标志.png</file>
+    <file>新不可回收标志.png</file>
+    <file>清洁模式标志.png</file>
+</qresource>
+</RCC>
+
